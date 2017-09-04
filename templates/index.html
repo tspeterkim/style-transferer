@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Style Transferer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/image-picker.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/image-picker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </head>
+  <body>
+    <!-- <a href="https://github.com/sugyan/tensorflow-mnist"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a> -->
+    <div class="container">
+      <h1>Style Transferer</h1>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="contentImageUrl">Content Image URL</label>
+            <input type="text" class="form-control" id="contentImageUrl" placeholder="url">
+          </div>
+          <p>in the style of...</p>
+          <div class="form-group">
+            <label for="styleImageUrl">Style Image URL</label>
+            <input type="text" class="form-control" id="styleImageUrl" placeholder="url">
+          </div>
+          <select class="styleImagePicker">
+            <option data-img-src="{{ url_for('static', filename='imgs/composition_vii.jpg') }}" data-img-class="first" value="composition_vii.jpg"></option>
+            <option data-img-src="{{ url_for('static', filename='imgs/muse.jpg') }}" value="muse.jpg"></option>
+            <option data-img-src="{{ url_for('static', filename='imgs/starry_night.jpg') }}" value="starry_night.jpg"></option>
+            <option data-img-src="{{ url_for('static', filename='imgs/the_scream.jpg') }}" data-img-class="last" value="the_scream.jpg"></option>
+          </select>
+        </div>
+        <div class="col-md-8">
+          <canvas id="output"></canvas>
+          <input type="hidden" id="image_downloaded" value="False">
+          <div id="settings">
+              <label>Content size:</label><input type="text" id="contentSize" value="200"><br>
+              <label>Style size:</label><input type="text" id="styleSize" value="200"><br>
+              <label>Content weight:</label><input type="text" id="contentWeight" value="6e-2"><br>
+              <label>Style weights:</label><input type="text" id="styleWeights" value="300000,1000,15,3"><br>
+              <label>TV weight:</label><input type="text" id="tvWeight" value="2e-2"><br>
+          </div>
+          <img id='processing' style="display:none; height:150px;" src="{{url_for('static', filename='imgs/processing.gif')}}">
+          <button id="transfer" class="btn btn-default">Transfer</button>
+        </div>
+        <div class="col-md-12">
+
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
