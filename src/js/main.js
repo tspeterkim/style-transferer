@@ -8,20 +8,26 @@ $(() => {
 
     $('#transfer').click(() => {
 
-      var contentdownloadurl = $('#contentImageUrl').val();
-      var contenturllist = contentdownloadurl.split('/');
-      var contentname = contenturllist[contenturllist.length - 1];
-      console.log(contentdownloadurl);
-      $.ajax({
-          url: '/api/download_img',
-          method: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({'url' : contentdownloadurl}),
-          success: (data) => {
-            console.log('successfully downloaded content img: ' + data.img);
-          }
-      });
-      var contenturl = 'instance/' + contentname;
+      var contenturl = '';
+      if ($('#contentImageUrl').val() == '') {
+        contenturl = 'static/imgs/hollywood.jpg'
+      } else {
+        var contentdownloadurl = $('#contentImageUrl').val();
+        var contenturllist = contentdownloadurl.split('/');
+        var contentname = contenturllist[contenturllist.length - 1];
+        console.log(contentdownloadurl);
+        $.ajax({
+            url: '/api/download_img',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({'url' : contentdownloadurl}),
+            success: (data) => {
+              console.log('successfully downloaded content img: ' + data.img);
+            }
+        });
+        contenturl = 'instance/' + contentname;
+      }
+
 
       var styleurl = '';
       if ($('#styleImageUrl').val() == '') {

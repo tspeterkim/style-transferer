@@ -14,15 +14,17 @@
       <h1>Style Transferer</h1>
       <div class="row">
         <div class="col-md-4">
+          <div>Use default image</div>
+          <img id='defaultImage' style="height:150px;" src="{{url_for('static', filename='imgs/hollywood.jpg')}}">
+          <div>or provide your own:</div>
           <div class="form-group">
-            <label for="contentImageUrl">Content Image URL</label>
-            <input type="text" class="form-control" id="contentImageUrl" placeholder="url">
+            <input type="text" class="form-control" id="contentImageUrl" placeholder="image url">
           </div>
-          <p>in the style of...</p>
+          <p><i>in the style of...</i></p>
           <div class="form-group">
-            <label for="styleImageUrl">Style Image URL</label>
-            <input type="text" class="form-control" id="styleImageUrl" placeholder="url">
+            <input type="text" class="form-control" id="styleImageUrl" placeholder="image url">
           </div>
+          <div>Or pick from existing style images:</div>
           <select class="styleImagePicker">
             <option data-img-src="{{ url_for('static', filename='imgs/composition_vii.jpg') }}" data-img-class="first" value="composition_vii.jpg"></option>
             <option data-img-src="{{ url_for('static', filename='imgs/muse.jpg') }}" value="muse.jpg"></option>
