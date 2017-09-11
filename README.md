@@ -18,4 +18,4 @@ Renders a given content image in the style of another given image through the po
 
     $ pip install -r requirements.txt (or pip3 to use the python3 distribution)
     $ npm install
-    $ gunicorn main:app -t 6000 --log-file=-
+    $ gunicorn main:app -t 40000 --log-file=-
