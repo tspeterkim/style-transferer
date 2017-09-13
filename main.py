@@ -10,8 +10,11 @@ from styletransfer.style import style_transfer, get_session
 from rq import Queue
 from worker import conn
 
-q = Queue(connection=conn) # create redis queue
+def return_none(str):
+    return None
 
+q = Queue(connection=conn) # create redis queue
+j = None
 # sess = get_session()
 # model = SqueezeNet(sess=sess)
 
@@ -20,16 +23,17 @@ app = Flask(__name__)
 
 @app.route('/api/styletransfer', methods=['POST'])
 def styletransfer():
-    # request.json['sess'] = sess
-    # request.json['model'] = model
     print (request.json)
-    # r = style_transfer(**request.json)
+    global j
+    j = q.enqueue(style_transfer, **request.json)
+    return jsonify(result='transfer initiated...')
 
-    job = q.enqueue(style_transfer, **request.json)
-    while (job.result == None):
-        x = True
-    print ("done!")
-    return jsonify(result=job.result)
+@app.route('/api/checkTransferStatus', methods=['GET'])
+def checkTransferStatus():
+    if j != None and j.result != None:
+        print ("Transfer complete!")
+        return jsonify(result=j.result)
+    return jsonify(result=None)
 
 @app.route('/api/download_img', methods=['POST'])
 def download_img():

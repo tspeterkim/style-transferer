@@ -74,24 +74,59 @@ $(() => {
         'tv_weight' : tw
       }
 
-      $('#processing').show();
-
       $.ajax({
           url: '/api/styletransfer',
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(input),
           success: (data) => {
-            // console.log(data.result);
-            $('#processing').hide();
-            var shape = data.result[0];
-
-            var canvas = document.getElementById('output');
-            var ctx = canvas.getContext('2d');
-
-            var imageData = new ImageData(new Uint8ClampedArray(data.result[1]), shape[1], shape[0]);
-            ctx.putImageData(imageData, 0, 0);
+            console.log(data.result);
+            // $('#processing').hide();
+            // var shape = data.result[0];
+            //
+            // var canvas = document.getElementById('output');
+            // var ctx = canvas.getContext('2d');
+            //
+            // var imageData = new ImageData(new Uint8ClampedArray(data.result[1]), shape[1], shape[0]);
+            // ctx.putImageData(imageData, 0, 0);
           }
       });
+
+      $('#processing').show();
+      var intervalID = setTimeout(checkTransferStatus, 5000);
+      var imageData = null;
+      function checkTransferStatus() {
+        $.ajax({
+            url: '/api/checkTransferStatus',
+            method: 'GET',
+            contentType: 'application/json',
+            success: (data) => {
+              if (data.result != null) {
+                $('#processing').hide();
+                var shape = data.result[0];
+
+                var canvas = document.getElementById('output');
+                var ctx = canvas.getContext('2d');
+
+                imageData = new ImageData(new Uint8ClampedArray(data.result[1]), shape[1], shape[0]);
+                ctx.putImageData(imageData, 0, 0);
+
+              }
+            },
+            complete: (data) => {
+              // schedule the next request *only* when the current one is complete:
+              if (imageData != null) {
+                clearTimeout(intervalID);
+                imageData = null;
+              } else {
+                setTimeout(checkTransferStatus, 5000);
+              }
+            }
+        });
+      }
+
+
+
+
     });
 });
