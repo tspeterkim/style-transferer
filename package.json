@@ -8,11 +8,11 @@
     "postinstall": "gulp"
   },
   "keywords": [],
-  "author": "",
+  "author": "Peter Kim",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sugyan/tensorflow-mnist.git"
+    "url": "https://github.com/peterkim95/style-transferer"
   },
   "engines": {
     "node": "6.x"

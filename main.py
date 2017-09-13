@@ -2,21 +2,34 @@ import os
 import requests
 from flask import Flask, jsonify, render_template, request
 
-# from mnist import model
+# from styletransfer import sq model
 from styletransfer.squeezenet import SqueezeNet
 from styletransfer.style import style_transfer, get_session
 
-sess = get_session()
-model = SqueezeNet(sess=sess)
+# redis
+from rq import Queue
+from worker import conn
 
-# webapp
+q = Queue(connection=conn) # create redis queue
+
+# sess = get_session()
+# model = SqueezeNet(sess=sess)
+
+# init webapp
 app = Flask(__name__)
 
 @app.route('/api/styletransfer', methods=['POST'])
 def styletransfer():
+    # request.json['sess'] = sess
+    # request.json['model'] = model
     print (request.json)
-    r = style_transfer(sess, model, **request.json)
-    return jsonify(result=r)
+    # r = style_transfer(**request.json)
+
+    job = q.enqueue(style_transfer, **request.json)
+    while (job.result == None):
+        print ("transferring...")
+    print ("done!")
+    return jsonify(result=job.result)
 
 @app.route('/api/download_img', methods=['POST'])
 def download_img():

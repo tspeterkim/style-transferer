@@ -9,6 +9,7 @@ import tensorflow as tf
 from scipy.misc import imread, imresize
 # import matplotlib.pyplot as plt
 
+
 def get_session():
     """Create a session that dynamically allocates memory."""
     # See: https://www.tensorflow.org/tutorials/using_gpu#allowing_gpu_memory_growth
@@ -16,6 +17,9 @@ def get_session():
     config.gpu_options.allow_growth = True
     session = tf.Session(config=config)
     return session
+
+sess = get_session()
+model = SqueezeNet(sess=sess)
 
 def content_loss(content_weight, content_current, content_original):
     """
@@ -105,7 +109,7 @@ def tv_loss(img, tv_weight):
     return tv_weight * (tf.reduce_sum((h - ho) ** 2) + tf.reduce_sum((w - wo) ** 2))
 
 
-def style_transfer(sess, model, content_image, style_image, image_size, style_size, content_layer, content_weight,
+def style_transfer(content_image, style_image, image_size, style_size, content_layer, content_weight,
                    style_layers, style_weights, tv_weight, init_random = False):
     """Run style transfer!
 
