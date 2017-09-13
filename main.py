@@ -27,7 +27,7 @@ def styletransfer():
 
     job = q.enqueue(style_transfer, **request.json)
     while (job.result == None):
-        print ("transferring...")
+        x = True
     print ("done!")
     return jsonify(result=job.result)
 
