@@ -1,7 +1,7 @@
 {
   "name": "style-transferer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Transfers the style of a given image onto a content image",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
