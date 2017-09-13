@@ -101,6 +101,7 @@ $(() => {
             method: 'GET',
             contentType: 'application/json',
             success: (data) => {
+              console.log(data.result)
               if (data.result != null) {
                 $('#processing').hide();
                 var shape = data.result[0];
