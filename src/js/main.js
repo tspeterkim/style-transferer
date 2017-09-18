@@ -81,17 +81,10 @@ $(() => {
           data: JSON.stringify(input),
           success: (data) => {
             console.log(data.result);
-            // $('#processing').hide();
-            // var shape = data.result[0];
-            //
-            // var canvas = document.getElementById('output');
-            // var ctx = canvas.getContext('2d');
-            //
-            // var imageData = new ImageData(new Uint8ClampedArray(data.result[1]), shape[1], shape[0]);
-            // ctx.putImageData(imageData, 0, 0);
+
           }
       });
-
+      $('#transfer').hide();
       $('#processing').show();
       var intervalID = setTimeout(checkTransferStatus, 5000);
       var imageData = null;
@@ -115,10 +108,10 @@ $(() => {
               }
             },
             complete: (data) => {
-              // schedule the next request *only* when the current one is complete:
               if (imageData != null) {
                 clearTimeout(intervalID);
                 imageData = null;
+                $('#transfer').show();
               } else {
                 setTimeout(checkTransferStatus, 5000);
               }
